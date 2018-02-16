@@ -20,6 +20,7 @@
       transport: nxapi
       use_ssl: no
       timeout: 30
+      validate_certs: false
     interface_info:
       - {int_name: "loopback0", ip: "1.1.1.1", mask: "32"}
       - {int_name: "ethernet1/2", ip: "12.12.12.12", mask: "24"}
