@@ -1,0 +1,69 @@
+---
+#
+# Initial testing of Ansible automation on NXOS9000v in VIRL
+# Demonstration of Ansible v2.4.0.0 running locally against hosts in PHX2 lab
+#
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
+# Date: 2018-02-01
+# Version: 0.1a
+#
+- name: Demonstration of automation of Nexus 9000v running in VIRL using Ansible
+  hosts: n9k1
+  connection: local
+  gather_facts: no
+  vars:
+    loopback0_info: {int_name: "loopback0", ip: "1.1.1.1", mask: "32"}
+    interface_info:
+      - {int_name: "loopback0", ip: "1.1.1.1", mask: "32"}
+      - {int_name: "ethernet1/2", ip: "12.12.12.12", mask: "24"}
+
+  tasks:
+
+    - name: Ensure ospf is enabled on the switch
+      nxos_feature:
+        feature: ospf
+        state: enabled
+        transport: nxapi
+        port: 8080
+
+    - name: Configure interfaces to be in "UP" state
+      with_items: "{{ interface_info }}"
+      nxos_interface:
+        description: 'Configured by Ansible'
+        interface: "{{ item.int_name }}"
+        admin_state: up
+        transport: nxapi
+        port: 8080
+
+    - name: Configure IP addresses on interfaces using nxapi
+      nxos_ip_interface:
+        interface: "{{ item.int_name }}"
+        transport: nxapi
+        port: 8080
+        version: v4
+        state: present
+        addr: "{{ item.ip }}"
+        mask: "{{ item.mask }}"
+      with_items: "{{ interface_info }}"
+
+    - name: Lets make sure OSPF is enabled on the switch
+      nxos_ospf:
+        ospf: 1
+        state: present
+        transport: nxapi
+        port: 8080
+
+    - name: Configure OSPF on interfaces
+      nxos_interface_ospf:
+        interface: "{{ item.int_name }}"
+        ospf: 1
+        area: 1
+        cost: default
+        transport: nxapi
+        port: 8080
+      with_items: "{{ interface_info }}"
+
+    - name: Make sure routing works
+      nxos_command:
+        commands: show ip route ospf
+        wait_for: result[0] contains 2.2.2.2

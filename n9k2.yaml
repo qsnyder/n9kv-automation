@@ -1,0 +1,63 @@
+---
+#
+# Initial testing of Ansible automation on NXOS9000v in VIRL
+# Demonstration of Ansible v2.4.0.0 running locally against hosts in PHX2 lab
+#
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
+# Date: 2018-02-01
+# Version: 0.1a
+#
+- name: Demonstration of automation of Nexus 9000v running in VIRL using Ansible
+  hosts: n9k2
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+    - name: Ensure ospf is enabled on the switch
+      nxos_feature:
+        feature: ospf
+        state: enabled
+
+    - name: Configure Loopback0
+      nxos_interface:
+        description: 'Configured by Ansible'
+        interface: loopback 0
+        admin_state: up
+
+    - name: Configure IP address on Loopback0 using nxapi
+      nxos_ip_interface:
+        interface: Loopback0
+        transport: nxapi
+        port: 8080
+        version: v4
+        state: present
+        addr: 2.2.2.2
+        mask: 32
+
+    - name: Configure IP address on Ethernet1/2 using cli transport
+      nxos_ip_interface:
+        interface: Ethernet1/2
+        version: v4
+        state: present
+        addr: 12.12.12.13
+        mask: 24
+
+    - name: Lets make sure OSPF is enabled on the switch
+      nxos_ospf:
+        ospf: 1
+        state: present
+
+    - name: Configure OSPF on Ethernet1/2
+      nxos_interface_ospf:
+        interface: Ethernet1/2
+        ospf: 1
+        area: 1
+        cost: default
+
+    - name: Configure OSPF on Loopback0
+      nxos_interface_ospf:
+        interface: Loopback0
+        ospf: 1
+        area: 1
+        cost: default
