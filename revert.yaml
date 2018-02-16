@@ -34,14 +34,15 @@
       nxos_interface:
         description: 'Shutdown by Ansible'
         interface: Ethernet1/2
+        mode: layer2
         admin_state: down
         provider: "{{ nxapi }}"
 
-    - name: Remove E1/2 interface IP addresses
-      nxos_ip_interface:
+    - name: Shutdown E1/2 interfaces
+      nxos_interface:
         interface: Ethernet1/2
-        version: v4
-        state: absent
+        mode: layer3
+        admin_state: down
         provider: "{{ nxapi }}"
 
     - name: Remove loopback0 interfaces
