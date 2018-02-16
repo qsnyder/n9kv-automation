@@ -30,14 +30,14 @@
         state: disabled
         provider: "{{ nxapi }}"
 
-    - name: Shutdown E1/2
+    - name: Shutdown E1/2 interfaces
       nxos_interface:
         description: 'Shutdown by Ansible'
         interface: Ethernet1/2
         admin_state: down
         provider: "{{ nxapi }}"
 
-    - name: Configure IP addresses on interfaces using nxapi
+    - name: Remove loopback0 interfaces
       nxos_interface:
         interface: loopback0
         state: absent
