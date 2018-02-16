@@ -12,7 +12,13 @@
   connection: local
   gather_facts: no
   vars:
-    loopback0_info: {int_name: "loopback0", ip: "1.1.1.1", mask: "32"}
+    nxapi:
+      host: "{{ inventory_hostname }}"
+      username: admin
+      password: admin
+      port: 8080
+      transport: nxapi
+      use_ssl: no
     interface_info:
       - {int_name: "loopback0", ip: "1.1.1.1", mask: "32"}
       - {int_name: "ethernet1/2", ip: "12.12.12.12", mask: "24"}
@@ -23,8 +29,7 @@
       nxos_feature:
         feature: ospf
         state: enabled
-        transport: nxapi
-        port: 8080
+        provider: "{{ nxapi }}"
 
     - name: Configure interfaces to be in "UP" state
       with_items: "{{ interface_info }}"
