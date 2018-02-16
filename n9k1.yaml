@@ -39,26 +39,23 @@
         description: 'Configured by Ansible'
         interface: "{{ item.int_name }}"
         admin_state: up
-        transport: nxapi
-        port: 8080
+        provider: "{{ nxapi }}"
 
     - name: Configure IP addresses on interfaces using nxapi
       nxos_ip_interface:
         interface: "{{ item.int_name }}"
-        transport: nxapi
-        port: 8080
         version: v4
         state: present
         addr: "{{ item.ip }}"
         mask: "{{ item.mask }}"
+        provider: "{{ nxapi }}"
       with_items: "{{ interface_info }}"
 
     - name: Lets make sure OSPF is enabled on the switch
       nxos_ospf:
         ospf: 1
         state: present
-        transport: nxapi
-        port: 8080
+        provider: "{{ nxapi }}"
 
     - name: Configure OSPF on interfaces
       nxos_interface_ospf:
@@ -66,8 +63,7 @@
         ospf: 1
         area: 1
         cost: default
-        transport: nxapi
-        port: 8080
+        provider: "{{ nxapi }}"
       with_items: "{{ interface_info }}"
 
     - name: Make sure routing works
