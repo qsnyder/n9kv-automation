@@ -37,6 +37,13 @@
         admin_state: down
         provider: "{{ nxapi }}"
 
+    - name: Remove E1/2 interface IP addresses
+      nxos_ip_interface:
+        interface: Ethernet1/2
+        version: v4
+        state: absent
+        provider: "{{ nxapi }}"
+
     - name: Remove loopback0 interfaces
       nxos_interface:
         interface: loopback0
