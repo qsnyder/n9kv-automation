@@ -13,7 +13,7 @@
   gather_facts: no
   vars:
     nxapi:
-      host: "{{ inventory_hostname }}"
+      host: 10.95.44.100
       username: admin
       password: admin
       port: 8080
