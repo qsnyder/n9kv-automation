@@ -1,0 +1,44 @@
+---
+#
+# Initial testing of Ansible automation on NXOS9000v in VIRL
+# Demonstration of Ansible v2.4.0.0 running locally against hosts in PHX2 lab
+#
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
+# Date: 2018-02-01
+# Version: 0.1a
+#
+- name: Reverting n9k1, n9k2 back to VIRL initialized state
+  hosts: n9k1, n9k2
+  connection: local
+  gather_facts: no
+  vars:
+    nxapi:
+#      host: 10.95.44.100
+      username: admin
+      password: admin
+      port: 8080
+      transport: nxapi
+      use_ssl: no
+      timeout: 30
+      validate_certs: false
+
+  tasks:
+
+    - name: Ensure ospf is removed on the switches
+      nxos_feature:
+        feature: ospf
+        state: disabled
+        provider: "{{ nxapi }}"
+
+    - name: Shutdown E1/2
+      nxos_interface:
+        description: 'Shutdown by Ansible'
+        interface: Ethernet1/2
+        admin_state: down
+        provider: "{{ nxapi }}"
+
+    - name: Configure IP addresses on interfaces using nxapi
+      nxos_interface:
+        interface: loopback0
+        state: absent
+        provider: "{{ nxapi }}"
