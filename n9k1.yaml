@@ -27,11 +27,11 @@
 
   tasks:
 
-#    - name: Ensure ospf is enabled on the switch
-#      nxos_feature:
-#        feature: ospf
-#        state: enabled
-#        provider: "{{ nxapi }}"
+    - name: Ensure ospf is enabled on the switch
+      nxos_feature:
+        feature: ospf
+        state: enabled
+        provider: "{{ nxapi }}"
 
     - name: Configure interfaces to be in "UP" state
       with_items: "{{ interface_info }}"
