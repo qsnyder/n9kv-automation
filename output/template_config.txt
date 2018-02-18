@@ -2,6 +2,11 @@ hostname access01
 !
 spanning-tree mode rapid-pvst
 !
+vlan 10
+ name Data
+vlan 100
+ name Voice
+!
 interface GigabitEthernet0/0
  vrf mgmt
  ip address 10.0.0.100 255.255.255.0
