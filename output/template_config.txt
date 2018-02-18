@@ -1,0 +1,38 @@
+hostname access01
+!
+spanning-tree mode rapid-pvst
+!
+interface GigabitEthernet0/0
+ vrf mgmt
+ ip address 10.0.0.100 255.255.255.0
+ media-type rj45
+ negotiation auto
+!
+!
+interface Loopback0
+ ip address 172.16.1.100 255.255.255.255
+!
+interface TenGigabitEthernet1/1/1
+ no switchport
+ no shutdown
+ ip address 192.168.254.130 255.255.255.252
+!
+interface TenGigabitEthernet1/1/2
+ no switchport
+ no shutdown
+ ip address 192.168.255.130 255.255.255.252
+!
+interface range GigabitEthernet1/0/1 - 24
+ switchport
+ switchport access 10
+ switchport voice vlan 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+router ospf 1
+ passive-interface default
+ no passive-interface TenGigabitEthernet 1/1/1
+ no passive-interface TenGigabitEthernet 1/1/2
+ network 172.16.1.100 0.0.0.0 area 0
+ network 192.168.254.130 0.0.0.0 area 0
+ network 192.168.255.130 0.0.0.0 area 0

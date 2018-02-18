@@ -1,0 +1,38 @@
+hostname {{ hostname }}
+!
+spanning-tree mode rapid-pvst
+!
+interface GigabitEthernet0/0
+ vrf mgmt
+ ip address {{ mgmt_ip }} {{ mgmt_mask }}
+ media-type rj45
+ negotiation auto
+!
+!
+interface Loopback{{ loopback_num }}
+ ip address {{ loopback_ip }} 255.255.255.255
+!
+interface TenGigabitEthernet1/1/1
+ no switchport
+ no shutdown
+ ip address {{ uplink1_ip }} {{ uplink_mask }}
+!
+interface TenGigabitEthernet1/1/2
+ no switchport
+ no shutdown
+ ip address {{ uplink2_ip }} {{ uplink_mask }}
+!
+interface range GigabitEthernet1/0/1 - {{ num_ports }}
+ switchport
+ switchport access {{ access_vlan }}
+ switchport voice vlan {{ voice_vlan }}
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+router ospf {{ ospf_process }}
+ passive-interface default
+ no passive-interface TenGigabitEthernet 1/1/1
+ no passive-interface TenGigabitEthernet 1/1/2
+ network {{ loopback_ip }} 0.0.0.0 area {{ ospf_area }}
+ network {{ uplink1_ip }} 0.0.0.0 area {{ ospf_area }}
+ network {{ uplink2_ip }} 0.0.0.0 area {{ ospf_area }}

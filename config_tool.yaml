@@ -1,0 +1,27 @@
+---
+- name: Building templated switch config based on input variables
+
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars:
+    num_ports: 24
+    hostname: "access01"
+    loopback_num: 0
+    loopback_ip: 172.16.1.100
+    mgmt_ip: 10.0.0.100
+    mgmt_mask: 255.255.255.0
+    uplink1_ip: 192.168.254.130
+    uplink2_ip: 192.168.255.130
+    uplink_mask: 255.255.255.252
+    access_vlan: 10
+    voice_vlan: 100
+    ospf_process: 1
+    ospf_area: 0
+
+  tasks:
+
+    - name: Build the templated configuration file
+      template:
+        src: ./templates/config.j2
+        dest: ./output/template_config.txt
