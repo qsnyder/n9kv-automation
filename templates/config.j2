@@ -2,6 +2,11 @@ hostname {{ hostname }}
 !
 spanning-tree mode rapid-pvst
 !
+{% for vlan in vlans %}
+vlan {{ vlan.id }}
+ name {{ vlan.name }}
+{% endfor %}
+!
 interface GigabitEthernet0/0
  vrf mgmt
  ip address {{ mgmt_ip }} {{ mgmt_mask }}
