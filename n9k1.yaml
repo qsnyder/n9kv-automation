@@ -27,12 +27,14 @@
       nxos_feature:
         feature: ospf
         state: enabled
+        provider: "{{ nxapi }}"
 
     - name: Configure Loopback0
       nxos_interface:
         description: 'Configured by Ansible'
         interface: loopback 0
         admin_state: up
+        provider: "{{ nxapi }}"
 
     - name: Configure IP address on Loopback0
       nxos_ip_interface:
@@ -41,6 +43,7 @@
         state: present
         addr: 1.1.1.1
         mask: 32
+        provider: "{{ nxapi }}"
 
     - name: Configure IP address on Ethernet1/2
       nxos_ip_interface:
@@ -49,11 +52,13 @@
         state: present
         addr: 12.12.12.12
         mask: 24
+        provider: "{{ nxapi }}"
 
     - name: Lets make sure OSPF is enabled on the switch
       nxos_ospf:
         ospf: 1
         state: present
+        provider: "{{ nxapi }}"
 
     - name: Configure OSPF on Ethernet1/2
       nxos_interface_ospf:
@@ -61,6 +66,7 @@
         ospf: 1
         area: 0
         cost: default
+        provider: "{{ nxapi }}"
 
     - name: Configure OSPF on Loopback0
       nxos_interface_ospf:
@@ -68,3 +74,4 @@
         ospf: 1
         area: 0
         cost: default
+        provider: "{{ nxapi }}"
