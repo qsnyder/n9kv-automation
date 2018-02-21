@@ -23,7 +23,7 @@
 
   tasks:
 
-    - name: Ensure ospf is enabled on the switch
+    - name: Ensure the OSPF feature is enabled
       nxos_feature:
         feature: ospf
         state: enabled
@@ -54,7 +54,7 @@
         mask: 24
         provider: "{{ nxapi }}"
 
-    - name: Lets make sure OSPF is enabled on the switch
+    - name: Enable the OSPF process on the switch
       nxos_ospf:
         ospf: 1
         state: present
