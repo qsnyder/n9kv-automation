@@ -7,7 +7,7 @@
 # Date: 2018-02-01
 # Version: 0.1a
 #
-- name: Demonstration of automation of Nexus 9000v running in VIRL using Ansible
+- name: Demonstration of automation of Nexus 9000v-2 running in VIRL using Ansible CLI transport
   hosts: n9k2
   connection: local
   gather_facts: no
@@ -25,17 +25,15 @@
         interface: loopback 0
         admin_state: up
 
-    - name: Configure IP address on Loopback0 using nxapi
+    - name: Configure IP address on Loopback0
       nxos_ip_interface:
         interface: Loopback0
-        transport: nxapi
-        port: 8080
         version: v4
         state: present
         addr: 2.2.2.2
         mask: 32
 
-    - name: Configure IP address on Ethernet1/2 using cli transport
+    - name: Configure IP address on Ethernet1/2
       nxos_ip_interface:
         interface: Ethernet1/2
         version: v4

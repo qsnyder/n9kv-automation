@@ -7,13 +7,12 @@
 # Date: 2018-02-01
 # Version: 0.1a
 #
-- name: Demonstration of automation of Nexus 9000v running in VIRL using Ansible
+- name: Demonstration of automation of Nexus 9000v-1 running in VIRL using Ansible NXAPI transport
   hosts: n9k1
   connection: local
   gather_facts: no
   vars:
     nxapi:
-      host: 10.95.44.100
       username: admin
       password: admin
       port: 8080
@@ -21,9 +20,6 @@
       use_ssl: no
       timeout: 30
       validate_certs: false
-    interface_info:
-      - {int_name: "loopback0", ip: "1.1.1.1", mask: "32"}
-      - {int_name: "ethernet1/2", ip: "12.12.12.12", mask: "24"}
 
   tasks:
 
@@ -31,42 +27,44 @@
       nxos_feature:
         feature: ospf
         state: enabled
-        provider: "{{ nxapi }}"
 
-    - name: Configure interfaces to be in "UP" state
-      with_items: "{{ interface_info }}"
+    - name: Configure Loopback0
       nxos_interface:
         description: 'Configured by Ansible'
-        interface: "{{ item.int_name }}"
+        interface: loopback 0
         admin_state: up
-        provider: "{{ nxapi }}"
 
-    - name: Configure IP addresses on interfaces using nxapi
+    - name: Configure IP address on Loopback0
       nxos_ip_interface:
-        interface: "{{ item.int_name }}"
+        interface: Loopback0
         version: v4
         state: present
-        addr: "{{ item.ip }}"
-        mask: "{{ item.mask }}"
-        provider: "{{ nxapi }}"
-      with_items: "{{ interface_info }}"
+        addr: 2.2.2.2
+        mask: 32
+
+    - name: Configure IP address on Ethernet1/2
+      nxos_ip_interface:
+        interface: Ethernet1/2
+        version: v4
+        state: present
+        addr: 12.12.12.12
+        mask: 24
 
     - name: Lets make sure OSPF is enabled on the switch
       nxos_ospf:
         ospf: 1
         state: present
-        provider: "{{ nxapi }}"
 
-    - name: Configure OSPF on interfaces
+    - name: Configure OSPF on Ethernet1/2
       nxos_interface_ospf:
-        interface: "{{ item.int_name }}"
+        interface: Ethernet1/2
         ospf: 1
         area: 1
         cost: default
-        provider: "{{ nxapi }}"
-      with_items: "{{ interface_info }}"
 
-    - name: Make sure routing works
-      nxos_command:
-        commands: show ip route ospf
-        wait_for: result[0] contains 2.2.2.2
+    - name: Configure OSPF on Loopback0
+      nxos_interface_ospf:
+        interface: Loopback0
+        ospf: 1
+        area: 1
+        cost: default

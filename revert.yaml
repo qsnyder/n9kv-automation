@@ -8,12 +8,11 @@
 # Version: 0.1a
 #
 - name: Reverting n9k1, n9k2 back to VIRL initialized state
-  hosts: n9k1, n9k2
+  hosts: all
   connection: local
   gather_facts: no
   vars:
     nxapi:
-#      host: 10.95.44.100
       username: admin
       password: admin
       port: 8080
