@@ -39,7 +39,7 @@
         interface: Loopback0
         version: v4
         state: present
-        addr: 2.2.2.2
+        addr: 1.1.1.1
         mask: 32
 
     - name: Configure IP address on Ethernet1/2
@@ -59,12 +59,12 @@
       nxos_interface_ospf:
         interface: Ethernet1/2
         ospf: 1
-        area: 1
+        area: 0
         cost: default
 
     - name: Configure OSPF on Loopback0
       nxos_interface_ospf:
         interface: Loopback0
         ospf: 1
-        area: 1
+        area: 0
         cost: default

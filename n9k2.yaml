@@ -50,12 +50,12 @@
       nxos_interface_ospf:
         interface: Ethernet1/2
         ospf: 1
-        area: 1
+        area: 0
         cost: default
 
     - name: Configure OSPF on Loopback0
       nxos_interface_ospf:
         interface: Loopback0
         ospf: 1
-        area: 1
+        area: 0
         cost: default
