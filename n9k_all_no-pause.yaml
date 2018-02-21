@@ -61,5 +61,6 @@
       ignore_errors: true
 
     - name: Revert if OSPF routes not found
-      import_playbook: revert.yaml
+      import_role:
+        name: revert
       when: result|failed
