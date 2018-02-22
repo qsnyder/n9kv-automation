@@ -1,0 +1,49 @@
+- name: Enable the OSPF feature on each switch
+  nxos_feature:
+    feature: ospf
+    state: enabled
+    provider: "{{ nxapi }}"
+
+- name: Configure interfaces to be in "UP" state
+  with_items: "{{ interface_info }}"
+  nxos_interface:
+    description: 'Configured by Ansible'
+    interface: "{{ item.int_name }}"
+    admin_state: up
+    provider: "{{ nxapi }}"
+
+- name: Configure IP addresses on interfaces
+  nxos_ip_interface:
+    interface: "{{ item.int_name }}"
+    version: v4
+    state: present
+    addr: "{{ item.ip }}"
+    mask: "{{ item.mask }}"
+    provider: "{{ nxapi }}"
+  with_items: "{{ interface_info }}"
+
+- name: Enable OSPF process on each switch
+  nxos_ospf:
+    ospf: "{{ ospf_process }}"
+    state: present
+    provider: "{{ nxapi }}"
+
+- name: Configure OSPF on interfaces
+  nxos_interface_ospf:
+    interface: "{{ item.int_name }}"
+    ospf: "{{ ospf_process }}"
+    area: "{{ ospf_area }}"
+    cost: "{{ ospf_cost }}"
+    provider: "{{ nxapi }}"
+  with_items: "{{ interface_info }}"
+
+- name: Pause while OSPF converges
+  pause:
+    seconds: 45
+
+- name: Make sure peer loopback0 is seen in routing table for OSPF
+  nxos_command:
+    commands: show ip route ospf
+    wait_for: result[0] contains "{{ peer_loop }}"
+  register: result
+  ignore_errors: true
