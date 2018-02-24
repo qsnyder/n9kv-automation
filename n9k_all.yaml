@@ -14,6 +14,9 @@
 
   tasks:
 
+    - name: Decrypting the Vault file
+      include_vars: "./vault.yml"
+
     - name: Enable the OSPF feature on each switch
       nxos_feature:
         feature: ospf
@@ -68,3 +71,12 @@
       import_role:
         name: revert
       when: result|failed
+
+    - name: Send message indicating switches have been configured
+      cisco_spark:
+        recipient_type: toPersonEmail
+        recipient_id: "{{ person_email }}"
+        message_type: markdown
+        personal_token: "{{ token }}"
+        message: "**{{ inventory_hostname }} has been configured.  OSPF routes are currently exchanged.**"
+      when: result|succeeded
