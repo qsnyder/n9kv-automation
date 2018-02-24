@@ -1,0 +1,29 @@
+---
+#
+# Initial testing of Ansible automation on NXOS9000v in VIRL
+# Demonstration of Cisco Spark Ansible module to send communications in a "chat-ops" methodology
+#
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
+# Date: 2018-02-01
+# Version: 0.1a
+#
+- name: Demonstration of automation of Nexus 9000v devices running in VIRL using Ansible
+  hosts: localhost
+#  connection: local
+  gather_facts: no
+
+  vars:
+    person_email: qsnyder@cisco.com
+
+  tasks:
+
+    - name: Decrypting the Vault file
+      include_vars: "./vault.yml"
+
+    - name: Send message indicating completion of play
+      cisco_spark:
+        recipient_type: toPersonEmail
+        recipient_id: "{{ person_email }}"
+        message_type: markdown
+        personal_token: "{{ token }}"
+        message: "**Cisco Spark Ansible Module - Room Message in Markdown**"
