@@ -1,10 +1,10 @@
 ---
 #
 # Initial testing of Ansible automation on NXOS9000v in VIRL
-# Demonstration of Ansible v2.4.0.0 running locally against hosts in PHX2 lab
+# Resetting of both NXOS9000v hosts back to original state using single playbook
 #
-# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
-# Date: 2018-02-01
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest .:|:.:|:. Cisco Systems
+# Date: 2018-02-26
 # Version: 0.1a
 #
 - name: Reverting n9k1, n9k2 back to VIRL initialized state

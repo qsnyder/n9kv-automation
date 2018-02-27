@@ -1,10 +1,10 @@
 ---
 #
 # Initial testing of Ansible automation on NXOS9000v in VIRL
-# Demonstration of Ansible v2.4.0.0 running locally against hosts in PHX2 lab
+# Demonstration of provisioning both NXOS9000v hosts using single playbook based on roles with conditional revert
 #
-# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
-# Date: 2018-02-01
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest .:|:.:|:. Cisco Systems
+# Date: 2018-02-26
 # Version: 0.1a
 #
 - name: Demonstration of automation of Nexus 9000v devices running in VIRL using Ansible

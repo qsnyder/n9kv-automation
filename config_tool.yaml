@@ -1,4 +1,12 @@
 ---
+#
+# Initial testing of Ansible automation on NXOS9000v in VIRL
+# Demonstration of using Jinja2 templating along with inline variables to generate a standardized configuration
+#
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest .:|:.:|:. Cisco Systems
+# Date: 2018-02-26
+# Version: 0.1a
+#
 - name: Building templated switch config based on input variables
 
   hosts: localhost

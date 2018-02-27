@@ -1,9 +1,9 @@
 ---
 #
 # Initial testing of Ansible automation on NXOS9000v in VIRL
-# Demonstration of Ansible v2.4.0.0 running locally against hosts in PHX2 lab
+# Demonstration of linear playbook for single host (n9k2) using CLI/SSH transport
 #
-# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest .:|:.:|:. Cisco Systems
 # Date: 2018-02-01
 # Version: 0.1a
 #

@@ -1,10 +1,12 @@
 ---
 #
 # Initial testing of Ansible automation on NXOS9000v in VIRL
-# Demonstration of Ansible v2.4.0.0 running locally against hosts in PHX2 lab
+# Demonstration of multihost playbook leveraging variables at both the host and group level, as well as using Spark for chat-ops
+# notifications.  Spark token is encrypted in a Vault file, protected by a password.
+# Uses a "pause" function to ensure that OSPF converges prior to calling the conditional reversion task
 #
-# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest
-# Date: 2018-02-01
+# Author: Quinn Snyder, Systems Engineer | Enterprise Southwest .:|:.:|:. Cisco Systems
+# Date: 2018-02-26
 # Version: 0.1a
 #
 - name: Demonstration of automation of Nexus 9000v devices running in VIRL using Ansible
