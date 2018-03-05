@@ -80,5 +80,5 @@
         recipient_id: "{{ person_email }}"
         message_type: markdown
         personal_token: "{{ token }}"
-        message: "**{{ inventory_hostname }} has been configured.  OSPF routes are currently exchanged.**"
+        message: "**{{ inventory_hostname }} has been configured.  {{ peer_loop }} is seen in the OSPF routing table.**"
       when: result|succeeded
