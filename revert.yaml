@@ -27,24 +27,24 @@
       nxos_feature:
         feature: ospf
         state: disabled
-        provider: "{{ nxapi }}"
+#        provider: "{{ nxapi }}"
 
     - name: Shutdown E1/2 interfaces
       nxos_interface:
         description: 'Shutdown by Ansible'
         interface: Ethernet1/2
         admin_state: down
-        provider: "{{ nxapi }}"
+#        provider: "{{ nxapi }}"
 
     - name: Remove E1/2 IP addresses
       nxos_config:
         lines:
           - interface ethernet1/2
           - no ip address
-        provider: "{{ nxapi }}"
+#        provider: "{{ nxapi }}"
 
     - name: Remove loopback0 interfaces
       nxos_interface:
         interface: loopback0
         state: absent
-        provider: "{{ nxapi }}"
+#        provider: "{{ nxapi }}"
