@@ -1,4 +1,4 @@
 interface_info:
-  - {int_name: "loopback0", ip: "2.2.2.2", mask: "32"}
-  - {int_name: "ethernet1/2", ip: "12.12.12.13", mask: "24"}
+  - {int_name: "loopback0", ip: "2.2.2.2/32"}
+  - {int_name: "ethernet1/2", ip: "12.12.12.13/24"}
 peer_loop: 1.1.1.1

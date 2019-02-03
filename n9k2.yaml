@@ -9,7 +9,7 @@
 #
 - name: Demonstration of automation of Nexus 9000v-2 running in VIRL using Ansible CLI transport
   hosts: n9k2
-  connection: local
+  connection: network
   gather_facts: no
 
   tasks:
@@ -26,20 +26,16 @@
         admin_state: up
 
     - name: Configure IP address on Loopback0
-      nxos_ip_interface:
-        interface: Loopback0
-        version: v4
+      nxos_l3_interface:
+        name: Loopback0
         state: present
-        addr: 2.2.2.2
-        mask: 32
+        ipv4: 2.2.2.2/32
 
     - name: Configure IP address on Ethernet1/2
-      nxos_ip_interface:
-        interface: Ethernet1/2
-        version: v4
+      nxos_l3_interface:
+        name: Ethernet1/2
         state: present
-        addr: 12.12.12.13
-        mask: 24
+        ipv4: 12.12.12.13/24
 
     - name: Enable the OSPF process on the switch
       nxos_ospf:
